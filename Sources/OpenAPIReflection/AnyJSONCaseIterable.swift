@@ -23,6 +23,7 @@ extension AnyRawRepresentable where Self: RawRepresentable {
 /// list of its possible values.
 public protocol AnyJSONCaseIterable: AnyRawRepresentable {
     static func allCases(using encoder: JSONEncoder) -> [AnyCodable]
+    static func allCases<T: Encodable>(from input: [T], using encoder: JSONEncoder) throws -> [AnyCodable]
 }
 
 extension AnyJSONCaseIterable where Self: RawRepresentable {
@@ -43,7 +44,7 @@ public extension AnyJSONCaseIterable where Self: CaseIterable, Self: Codable {
         guard let first = allCases.first else {
             throw OpenAPI.EncodableError.exampleNotCodable
         }
-        let itemSchema = try OpenAPIReflection.nestedGenericOpenAPISchemaGuess(for: first, using: encoder)
+        let itemSchema = try nestedGenericOpenAPISchemaGuess(for: first, using: encoder)
 
         return itemSchema.with(allowedValues: allCases.map { AnyCodable($0) })
     }

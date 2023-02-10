@@ -45,13 +45,13 @@ final class SchemaWithExampleTests: XCTestCase {
             expectedSchema.objectContext
         )
 
-        XCTAssertNotNil(schemaGuess.example)
+        XCTAssertNotNil(schemaGuess)
 
         // equality checks on AnyCodable are finicky but
         // they compare equally when encoded to data.
         XCTAssertEqual(
-            try testEncoder.encode(schemaGuess.example),
-            try testEncoder.encode(expectedSchema.example)
+            try testEncoder.encode(schemaGuess),
+            try testEncoder.encode(expectedSchema)
         )
     }
 }
